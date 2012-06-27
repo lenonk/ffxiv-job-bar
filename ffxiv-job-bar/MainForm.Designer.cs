@@ -57,6 +57,7 @@
             this.SettingsButton.TabIndex = 28;
             this.SettingsButton.Text = "Settings";
             this.SettingsButton.UseVisualStyleBackColor = true;
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
             // closeButton
             // 
@@ -65,7 +66,7 @@
             this.closeButton.Font = new System.Drawing.Font("Cambria Math", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.closeButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.closeButton.Image = global::ffxiv_job_bar.Properties.Resources.close;
-            this.closeButton.Location = new System.Drawing.Point(369, 0);
+            this.closeButton.Location = new System.Drawing.Point(373, 0);
             this.closeButton.Margin = new System.Windows.Forms.Padding(0);
             this.closeButton.Name = "closeButton";
             this.closeButton.Padding = new System.Windows.Forms.Padding(1);
