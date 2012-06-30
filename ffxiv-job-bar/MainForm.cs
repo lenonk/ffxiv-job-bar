@@ -10,11 +10,13 @@ using System.Windows.Forms;
 namespace ffxiv_job_bar
 {
     public partial class MainForm : Form
-    {
-        private bool minimized = false; 
+    { 
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HT_CAPTION = 0x2;
-        
+        private bool minimized = false;
+        private short actionWait;
+        private bool hotkeysEnabled;
+
         public static SettingsForm sf;
         public static JobConfigureForm jcf;
 
@@ -78,12 +80,43 @@ namespace ffxiv_job_bar
             if (e.Button == MouseButtons.Left) {
                 NativeImports.ReleaseCapture();
                 NativeImports.SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-                //sf.Save();
+                sf.Save();
             }
         }
 
         private void SettingsButton_Click(object sender, EventArgs e) {
             sf.ShowDialog();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e) {
+                SQLiteDatabase db = new SQLiteDatabase("ffxiv_job_bar.db");
+            DataTable settings;
+
+            String query = "Select * from settings;";
+            settings = db.GetDataTable(query);
+
+            int x = 0, y = 0;
+            foreach (DataRow r in settings.Rows) {
+                switch (r["variable"].ToString()) {
+                    case "opacity":
+                        this.Opacity = Convert.ToDouble(r["value"].ToString()) / 100;
+                        break;
+                    case "locationX":
+                        x = Convert.ToInt32(r["value"].ToString());
+                        break;
+                    case "locationY":
+                        y = Convert.ToInt32(r["value"].ToString());
+                        break;
+                    case "actionwait":
+                        this.actionWait = Convert.ToInt16(r["value"].ToString());
+                        break;
+                    case "hotkeysenabled":
+                        this.hotkeysEnabled = Convert.ToBoolean(r["value"].ToString());
+                        break;
+                }
+            }
+            this.Location = new Point(x, y);
+            this.Refresh();
         }
     }
 }

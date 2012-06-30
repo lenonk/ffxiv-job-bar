@@ -47,6 +47,7 @@
             this.SaveButton.TabIndex = 12;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // groupBox1
             // 
@@ -144,6 +145,7 @@
             this.LoadDataButton.TabIndex = 10;
             this.LoadDataButton.Text = "Update/Import Equipment Data (Uses MoogleBox)";
             this.LoadDataButton.UseVisualStyleBackColor = true;
+            this.LoadDataButton.Click += new System.EventHandler(this.LoadDataButton_Click);
             // 
             // SettingsForm
             // 
@@ -156,8 +158,11 @@
             this.Controls.Add(this.LoadDataButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SettingsForm";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SettingsForm";
+            this.TopMost = true;
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.actionWaitChanger)).EndInit();
