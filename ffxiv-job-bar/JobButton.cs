@@ -87,11 +87,17 @@ namespace ffxiv_job_bar
                 return;
             }
 
-            ToggleButtonStates();
             String query = 
                 String.Format("select position, value from buttons where position = 'mh' " +
                     "and button_name = '{0}';", Name);
             settings = db.GetDataTable(query);
+            if (settings.Rows.Count <= 0)
+                return;
+            if (settings.Rows[0]["value"].ToString().Trim() == "") {
+                db.Delete("buttons", String.Format("button_name = \"{0}\"", Name));
+                return;
+            }
+            ToggleButtonStates();
             SendMessage(ffHandle, String.Format("/equip mh \"{0}\"", settings.Rows[0]["value"].ToString()));
             if (use_job) {
                 SendMessage(ffHandle, "/job on");

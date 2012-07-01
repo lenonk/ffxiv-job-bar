@@ -83,7 +83,7 @@
             0,
             0});
             this.actionWaitChanger.Minimum = new decimal(new int[] {
-            500,
+            10,
             0,
             0,
             0});
@@ -91,7 +91,7 @@
             this.actionWaitChanger.Size = new System.Drawing.Size(50, 20);
             this.actionWaitChanger.TabIndex = 3;
             this.actionWaitChanger.Value = new decimal(new int[] {
-            500,
+            200,
             0,
             0,
             0});
