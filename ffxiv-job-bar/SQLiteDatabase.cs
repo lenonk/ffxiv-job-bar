@@ -132,7 +132,7 @@ namespace ffxiv_job_bar
             try {
                 String query = String.Format("DELETE from {0}", tableName);
                 if (where != null) {
-                    query += String.Format(" where {1}", where);
+                    query += String.Format(" where {0}", where);
                 }
                 query += ";";
                 this.ExecuteNonQuery(query);
@@ -156,12 +156,15 @@ namespace ffxiv_job_bar
             Boolean returnCode = true;
             foreach (KeyValuePair<String, String> val in data) {
                 columns += String.Format(" {0},", val.Key.ToString());
-                values += String.Format(" '{0}',", val.Value);
+                values += String.Format(" \"{0}\",", val.Value);
             }
             columns = columns.Substring(0, columns.Length - 1);
             values = values.Substring(0, values.Length - 1);
+           
             try {
-                this.ExecuteNonQuery(String.Format("insert into {0}({1}) values({2});", tableName, columns, values));
+                String query = String.Format("insert into {0}({1}) values({2});", 
+                    tableName.Trim(), columns.Trim(), values.Trim());
+                this.ExecuteNonQuery(query);
             }
             catch (Exception fail) {
                 MessageBox.Show(fail.Message);

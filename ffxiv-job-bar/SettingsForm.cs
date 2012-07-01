@@ -12,13 +12,21 @@ using System.IO;
 
 namespace ffxiv_job_bar
 {
+    public delegate void ItemDataChangedHandler(object sender, EventArgs e);
+
     public partial class SettingsForm : Form
     {
+        public event ItemDataChangedHandler ItemDataChanged;
+
         private MainForm parent;
 
         public SettingsForm(MainForm parent) {
             InitializeComponent();
             this.parent = parent;
+        }
+
+        protected virtual void OnItemDataChanged(EventArgs e) {
+            ItemDataChanged(this, e);
         }
 
         private void opacityChanger_ValueChanged(object sender, EventArgs e) {
@@ -35,7 +43,6 @@ namespace ffxiv_job_bar
             SQLiteDatabase db = new SQLiteDatabase("ffxiv_job_bar.db");
             Dictionary<String, String> data = new Dictionary<String, String>();
 
-            db.ExecuteNonQuery("create table if not exists settings(variable text, value text)");
             db.Delete("settings", null);
 
             try {
@@ -104,6 +111,7 @@ namespace ffxiv_job_bar
             this.Cursor = Cursors.Arrow;
             SaveButton.Enabled = true;
             CancelButton.Enabled = true;
+            OnItemDataChanged(new EventArgs());
             MessageBox.Show("All data imported!");
         }
 
@@ -141,7 +149,6 @@ namespace ffxiv_job_bar
             urls.Add("/armor/necklace");
             urls.Add("/armor/ring");
 
-            db.ExecuteNonQuery("create table if not exists items(position text, name text)");
             db.Delete("items", null);
 
             String position = "";
@@ -201,4 +208,5 @@ namespace ffxiv_job_bar
             }
         }
     }
+
 }
